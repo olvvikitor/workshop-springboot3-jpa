@@ -1,0 +1,26 @@
+package com.educandoweb.course.services;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.educandoweb.course.entities.Product;
+import com.educandoweb.course.reposities.ProductRepository;
+
+
+@Service
+public class ProductService {
+	
+	private ProductRepository repository;
+	
+	public List<Product>findAllProducts(){
+		return repository.findAll();
+	}
+	
+	public Product findByIdProduct(Long id) {
+		Optional<Product> obj = repository.findById(id);
+		return obj.get();
+	}
+
+}
