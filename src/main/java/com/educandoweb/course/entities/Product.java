@@ -5,15 +5,22 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "tab_product")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Product implements Serializable  {
 	
 	private static final long serialVersionUID = 1L;
@@ -28,8 +35,10 @@ public class Product implements Serializable  {
 	private String imgUrl;
 	
 	
-	
-	@Transient
+
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "tb_product_category",joinColumns = @JoinColumn (name = "product_id"),inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
 	
 	public Product() {
@@ -97,6 +106,7 @@ public class Product implements Serializable  {
 	}
 	
 	
+
 
 
 	public Set<Category> getCategory() {
